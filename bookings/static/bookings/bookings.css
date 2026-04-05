@@ -1,0 +1,82 @@
+/* Main Container */
+.container.py-5 {
+    min-height: calc(100vh - 100px);
+}
+
+/* Main Row */
+.row.g-4 {
+    min-height: calc(100vh - 200px);
+}
+
+/* Calendar Card */
+.card.shadow-sm.h-100 {
+    height: 100%;
+}
+
+/* Calendar Body */
+.card-body {
+    height: calc(100% - 56px);
+    padding: 12px;
+}
+
+.card-body>#calendar {
+    min-height: 50vh;
+}
+
+/* Calendar */
+#calendar {
+    height: 100%;
+    width: 100%;
+}
+
+/* Booking List Card */
+#bookingsContainer {
+    height: auto;
+    max-height: calc(100vh - 350px); /* Begrenzt die Höhe der Buchungsliste */
+    overflow-y: auto;
+}
+
+/* Booking Card */
+.booking-card {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.booking-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Hover Effect */
+.booking-card:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Badge */
+.badge {
+    font-size: 0.85rem;
+    padding: 0.35em 0.65em;
+}
+
+/* Search Bar */
+.input-group {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Container für Buchungsliste */
+.bookings-container {
+    padding: 12px; /* Optimierter Innenabstand */
+    max-height: calc(5 * 110px); /* Maximal 5 Elemente (Höhe pro Karte ca. 110px) */
+    overflow-y: auto;
+    mask-image: linear-gradient(to bottom, transparent, black 20px, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(to bottom, transparent, black 20px, black 90%, transparent);
+}
+
+/* Modal */
+.modal-dialog {
+    max-width: 500px;
+}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block styles %}
+
+    <link rel="stylesheet" href="{% static 'home/home.css' %}">
+
+{% endblock %}
+
+{% block content %}
+
+<div class="hero-section shadow-sm">
+    <div class="col-md-6 p-lg-5 mx-auto my-5 text-white">
+        <h1 class="display-3 fw-bold">Hello {{ user.first_name }}</h1>
+        <p class="lead fw-normal">Nice to see you</p>
+        <a class="btn btn-outline-light btn-lg px-4" href="/applist/">Go to your apps</a>
+    </div>
+</div>
+
+<div class="container my-5">
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+
+        {% if user.is_superuser %}
+        <div class="feature col text-center">
+            <div class="feature-icon d-inline-flex align-items-center justify-content-center fs-2 mb-3 text-secondary bg-secondary bg-opacity-10 p-3 rounded-circle" style="width: 80px; height: 80px;">
+                <i class="bi bi-gear-fill"></i>
+            </div>
+            <h3 class="fs-4">Administration</h3>
+            <p>Configure databases, apps and users</p>
+            <a href="/admin" class="btn btn-secondary">Go to</a>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}

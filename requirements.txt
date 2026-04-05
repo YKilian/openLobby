@@ -1,0 +1,21 @@
+# Django Core
+Django>=4.2,<5.1
+
+# PostgreSQL Database Driver
+# Die 'binary' Version ist einfacher für Docker-Einsteiger,
+# da sie keine lokalen C-Libraries zum Kompilieren benötigt.
+psycopg2-binary==2.9.9
+
+# Database URL Utility
+# Erlaubt es, die Datenbank-Verbindung als einfachen String (DATABASE_URL)
+# in Docker zu definieren (sehr sauber!)
+dj-database-url==2.1.0
+
+# Statische Dateien (Optional, aber empfohlen für Docker/Produktion)
+# Hilft Django, statische Dateien effizienter auszuliefern
+whitenoise==6.6.0
+
+# Falls du Umgebungsvariablen aus einer .env Datei laden willst
+django-environ==0.11.2
+
+djangorestframework==3.17.1

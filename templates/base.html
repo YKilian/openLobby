@@ -1,0 +1,109 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>openLobby | {% block title %}{% endblock %}</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'global/images/favicon.ico' %}">
+    <link rel="stylesheet" href="{% static 'global/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'global/css/bootstrap-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'global/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'global/css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'global/css/season.css' %}">
+    {% block styles %}{% endblock %}
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark px-3 py-2 border-bottom">
+        <div class="container">
+            <a href="/" class="navbar-brand d-flex align-items-center me-auto">
+                <img src="{% static 'global/images/logo.svg' %}" alt="Logo" class="me-2" width="50">
+                <span class="fw-bold text-white">openLobby</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+                    aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
+                 aria-labelledby="offcanvasNavbarLabel">
+                <div class="offcanvas-header bg-light">
+                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menü</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 ms-auto my-2 my-lg-0 text-small">
+                        <li class="nav-item">
+                            <a href="/" class="nav-link px-2">
+                                <i class="bi bi-house fs-5 mb-1 me-2 me-lg-0"></i>
+                                Home
+                            </a>
+                        </li>
+{#                        <li class="nav-item">#}
+{#                            <a href="#" class="nav-link px-2 disabled" tabindex="-1" aria-disabled="true">#}
+{#                                <i class="bi bi-speedometer2 fs-5 mb-1 me-2 me-lg-0"></i>#}
+{#                                Dashboard#}
+{#                            </a>#}
+{#                        </li>#}
+{#                        <li class="nav-item">#}
+{#                            <a href="#" class="nav-link px-2 disabled" tabindex="-1" aria-disabled="true">#}
+{#                                <i class="bi bi-pin-map fs-5 mb-1 me-2 me-lg-0"></i>#}
+{#                                Map#}
+{#                            </a>#}
+{#                        </li>#}
+                        <li class="nav-item">
+                            <a href="/applist" class="nav-link px-2">
+                                <i class="bi bi-grid-1x2 fs-5 mb-1 me-2 me-lg-0"></i>
+                                Apps
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown text-center">
+                            <a class="nav-link px-2 dropdown-toggle"
+                               href="#"
+                               role="button"
+                               data-bs-toggle="dropdown"
+                               aria-expanded="false">
+                                <i class="bi bi-person-gear fs-5 mb-1 me-2 me-lg-0"></i>
+                                Profile
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end custom-dropdown text-center">
+                                <li>
+                                    <a class="dropdown-item fw-semibold" href="{% url 'password_change' %}">
+                                        <i class="bi bi-key"></i> Change password
+                                    </a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li>
+                                    <form method="post" action="{% url 'logout' %}" style="display:inline;">
+                                        {% csrf_token %}
+                                        <button type="submit" class="dropdown-item text-danger fw-semibold" style="border:none; background:none; width:100%; text-align:left;">
+                                            <i class="bi bi-box-arrow-right"></i> Logout
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+<form style="display: none;">
+    {% csrf_token %}
+</form>
+<main class="container my-4">
+    {% block content %}
+    {% endblock %}
+</main>
+</body>
+<script src="{% static 'global/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'global/js/main.js' %}"></script>
+<script src="{% static 'global/js/season.js' %}"></script>
+{% block scripts %}{% endblock %}
+</html>

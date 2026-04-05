@@ -1,0 +1,61 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'global/images/favicon.ico' %}">
+    <link rel="stylesheet" href="{% static 'global/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'global/css/bootstrap-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'global/css/main.css' %}">
+
+    <link rel="stylesheet" href="{% static 'global/css/season.css' %}">
+</head>
+<body class="center">
+<div class="background-accent2"></div>
+<div class="background-accent"></div>
+
+<div class="glass-container">
+    <div class="login-form text-center">
+        <div class="w-100 mx-auto" style="max-width: 400px;">
+            <img src="{% static 'global/images/logo.svg' %}" alt="Logo" class="d-block mx-auto mb-4" width="140">
+            <h2 class="mb-4 text-white">Login</h2>
+            {% if form.errors or form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {% if form.non_field_errors %}
+                        {% for error in form.non_field_errors %}
+                            {{ error }}
+                        {% endfor %}
+                    {% else %}
+                        Bitte überprüfe deine Eingaben.
+                    {% endif %}
+                </div>
+            {% endif %}
+            <form method="POST" id="form">
+                {% csrf_token %}
+                 <div class="input-group mb-3">
+                    <span class="input-group-text">@</span>
+                    <div class="form-floating flex-grow-1">
+                        <input type="text" class="form-control" id="usernameInput" placeholder="Username"
+                               name="username" required autofocus>
+                        <label for="usernameInput">Username</label>
+                    </div>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="password" class="form-control" id="passwordInput" placeholder="*****" name="password"
+                           required>
+                    <label for="passwordInput">Password</label>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">Log in</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+<script src="{% static 'login/background.js' %}"></script>
+<script src="{% static 'global/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'global/js/season.js' %}"></script>
+</html>

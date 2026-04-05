@@ -1,0 +1,24 @@
+services:
+  db:
+    image: postgres:15
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - "POSTGRES_DB=openlobby_db"
+      - "POSTGRES_USER=lobby_user"
+      - "POSTGRES_PASSWORD=geheim"
+
+  web:
+    build: .
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    environment:
+      - "DATABASE_URL=postgres://lobby_user:geheim@db:5432/openlobby_db"
+      - "TZ=UTC"
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:

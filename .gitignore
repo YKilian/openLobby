@@ -1,0 +1,34 @@
+# --- Django ---
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+staticfiles/
+media/
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+env/
+.env
+.python-version
+
+# --- Docker ---
+.docker-compose.override.yml
+# Falls du deine Postgres-Daten lokal in einem Ordner speicherst:
+postgres_data/
+
+# --- IDEs / Editoren ---
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# --- OS ---
+Thumbs.db
+ehthumbs.db

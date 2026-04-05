@@ -1,0 +1,17 @@
+    .feature {
+        transition: transform 0.3s ease;
+    }
+    .feature:hover {
+        transform: translateY(-10px);
+    }
+    .hero-section {
+        background-color: #333;
+
+        background-image: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)),
+                          url("images/hero.webp");
+        background-size: cover;
+        background-position: center;
+        min-height: 400px;
+        border-radius: 15px;
+        padding: 20px;
+    }
