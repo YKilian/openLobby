@@ -39,6 +39,7 @@ class BookingView(LoginRequiredMixin, UserPassesTestMixin, View):
     def get(self, request):
         now = timezone.now()
         bookings = Booking.objects.filter(booking_to__gte=now).order_by('booking_from')
+
         return render(request, self.template_name, {'bookings': bookings, 'TIME_ZONE': settings.TIME_ZONE})
 
 

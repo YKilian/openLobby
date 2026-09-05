@@ -1,5 +1,6 @@
 let booking_id;
 let calendar;
+let current_card;
 
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize Calendar
@@ -77,16 +78,59 @@ if (searchInput) {
 }
 
 function show_booking(card) {
-    const modalContent = document.getElementById('modalContent');
+    const modalContent = document.getElementById('modal-content');
 
     booking_id = card.dataset.id
+    current_card = card
 
     modalContent.innerHTML = `
-        <p><strong>Name:</strong> ${card.getAttribute('data-name')}</p>
-        <p><strong>Date:</strong> ${card.getAttribute('data-date')}</p>
-        <p><strong>Room:</strong> ${card.getAttribute('data-room')}</p>
-        <p><strong>Status:</strong> ${card.querySelector('.badge').textContent}</p>
-        <p><strong>Notes:</strong> <textarea id="note-textarea" placeholder="Type here..." onkeydown="if(((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 's')) { event.preventDefault(); update_note(); }">${card.getAttribute('data-note')}</textarea></p>
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-person-badge-fill"></i> Booking Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="modalContent">
+                    <div class="form-floating mb-3">
+                      <input type="text" readonly class="form-control-plaintext" id="modal-name" placeholder="${card.getAttribute('data-name')}" value="${card.getAttribute('data-name')}">
+                      <label for="modal-name"><i class="bi bi-person-fill"></i> Name</label>
+                    </div>
+                    
+                    <div class="form-floating mb-3">
+                      <input type="email" readonly class="form-control-plaintext" id="model-email" placeholder="${card.getAttribute('data-email')}" value="${card.getAttribute('data-email')}">
+                      <label for="model-email"><i class="bi bi-envelope-at-fill"></i> Email</label>
+                    </div>
+                    
+                    <div class="form-floating mb-3">
+                      <input type="text" readonly class="form-control-plaintext" id="modal-phone" placeholder="${card.getAttribute('data-tel')}" value="${card.getAttribute('data-tel')}">
+                      <label for="modal-phone"><i class="bi bi-telephone-fill"></i> Phone</label>
+                    </div>
+        
+                    <div class="form-floating mb-3">
+                      <input type="text" readonly class="form-control-plaintext" id="modal-date" placeholder="${card.getAttribute('data-date')}" value="${card.getAttribute('data-date')}">
+                      <label for="modal-date"><i class="bi bi-calendar-range-fill"></i> Date</label>
+                    </div>
+        
+                    <div class="form-floating mb-3">
+                      <input type="number" readonly class="form-control-plaintext" id="modal-room" placeholder="${card.getAttribute('data-room')}" value="${card.getAttribute('data-room')}">
+                      <label for="modal-room"><i class="bi bi-door-open-fill"></i> Room</label>
+                    </div>
+        
+                    <div class="form-floating mb-3">
+                      <input type="text" readonly class="form-control-plaintext" id="modal-status" placeholder="${card.querySelector('.badge').textContent}" value="${card.querySelector('.badge').textContent}">
+                      <label for="modal-status"><i class="bi bi-bookmark-check-fill"></i> Status</label>
+                    </div>
+        
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="Leave a note here" id="note-textarea" style="height: 100px" onkeydown="if(((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 's')) { event.preventDefault(); update_note(); }">${card.getAttribute('data-note') && card.getAttribute('data-note') !== '{}' ? card.getAttribute('data-note') : ''}</textarea>
+                        <label for="note-textarea"><i class="bi bi-card-text"></i> Note</label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="update_note()">Safe Changes</button>
+                ${card.querySelector('.badge').textContent.trim() === 'Not Checked In' ? '<button type="button" class="btn btn-success" onclick="check_in()">Check-in</button>' : ''}
+                <button type="button" class="btn btn-secondary" onclick="clear_booking_id()" data-bs-dismiss="modal">Close</button>
+            </div>
     `;
 }
 
@@ -99,9 +143,10 @@ document.querySelectorAll('.details-btn').forEach(btn => {
     });
 });
 
-function check_in(alt_booking_id = null) {
+function check_in(alt_booking_id = null, trigger= null) {
     if (alt_booking_id) {
         booking_id = alt_booking_id
+        current_card = document.querySelector(`.booking-card[data-id="${booking_id}"]`);
     }
     fetch(`/bookings/api/bookings/${booking_id}/checkin/`, {
         method: 'POST',
@@ -114,7 +159,11 @@ function check_in(alt_booking_id = null) {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                location.reload()
+                calendar.refetchEvents();
+                current_card.querySelector('.badge').textContent = 'Checked In';
+                current_card.querySelector('.badge').classList.replace('bg-secondary', 'bg-success');
+                current_card.querySelector('.checkin-btn').closest('.col-auto').remove();
+                document.getElementById("modal-content").querySelector('.modal-footer .btn.btn-success').remove();
             } else {
                 console.error('Error updating check-in status:', data.error);
             }
@@ -125,17 +174,20 @@ function check_in(alt_booking_id = null) {
 }
 
 function update_note() {
+    let new_content = document.getElementById("note-textarea").value
     fetch(`/bookings/api/bookings/${booking_id}/update_note/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'text/plain',
             'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
         },
-        body: document.getElementById("note-textarea").value
+        body: new_content
     })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+    .catch(error => {
+        console.error('Error:', error);
+    });
+
+    current_card.setAttribute('data-note', new_content)
 }
 
 function clear_booking_id() {
