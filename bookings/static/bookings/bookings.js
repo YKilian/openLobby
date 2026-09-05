@@ -6,7 +6,8 @@
                 calendar = new FullCalendar.Calendar(calendarEl, {
                     height: '100%',
                     initialView: 'dayGridMonth',
-                    locale: 'en',
+                    firstDay: 1,
+                    locale: 'en-gb',
                     timeZone: 'UTC',
                     headerToolbar: {
                         left: 'prev,next today',
@@ -30,8 +31,9 @@
                         if (card) {
                             const modalContent = document.getElementById('modalContent');
                             modalContent.innerHTML = `
-                                <p><strong>Name:</strong> ${card.querySelector('.card-title').textContent}</p>
-                                <p><strong>Date:</strong> ${card.querySelector('.card-text').textContent}</p>
+                                <p><strong>Name:</strong> ${card.getAttribute('data-name')}</p>
+                                <p><strong>Date:</strong> ${card.getAttribute('data-date')}</p>
+                                <p><strong>Room:</strong> ${card.getAttribute('data-room')}</p>
                                 <p><strong>Status:</strong> ${card.querySelector('.badge').textContent}</p>
                             `;
                             const modal = new bootstrap.Modal(document.getElementById('bookingModal'));
@@ -66,8 +68,9 @@
                     document.querySelectorAll('.booking-card').forEach(card => {
                         const name = card.dataset.name.toLowerCase();
                         const date = card.dataset.date.toLowerCase();
+                        const room = card.dataset.room.toLowerCase();
                         console.log(card.dataset);
-                        if (name.includes(searchTerm) || date.includes(searchTerm)) {
+                        if (name.includes(searchTerm) || date.includes(searchTerm) || room.includes(searchTerm)) {
                             card.style.display = 'block';
                         } else {
                             card.style.display = 'none';
@@ -82,8 +85,9 @@
                     const card = this.closest('.booking-card');
                     const modalContent = document.getElementById('modalContent');
                     modalContent.innerHTML = `
-                        <p><strong>Name:</strong> ${card.querySelector('.card-title').textContent}</p>
-                        <p><strong>Date:</strong> ${card.querySelector('.card-text').textContent}</p>
+                        <p><strong>Name:</strong> ${card.getAttribute('data-name')}</p>
+                        <p><strong>Date:</strong> ${card.getAttribute('data-date')}</p>
+                        <p><strong>Room:</strong> ${card.getAttribute('data-room')}</p>
                         <p><strong>Status:</strong> ${card.querySelector('.badge').textContent}</p>
                     `;
                 });

@@ -6,6 +6,8 @@ class Person(models.Model):
         ('M', 'Male'),
         ('F', 'Female'),
         ('NB', 'Non-Binary'),
+        ('O', "Other"),
+        ('P', 'Prefer not to Answer')
     ]
     gender = models.CharField(max_length=2, choices=GENDER_CHOICES)
     first_name = models.CharField(max_length=100)
@@ -14,5 +16,5 @@ class Person(models.Model):
     email = models.EmailField()
     tel = models.CharField(max_length=100)
 
-    class Meta:
-        abstract = True
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
