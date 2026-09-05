@@ -5,7 +5,7 @@ from .models import Booking, Person, Room
 class PersonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Person
-        fields = '__all__'  # Oder spezifische Felder wie ['id', 'first_name', 'last_name']
+        fields = '__all__'
 
 
 class RoomSerializer(serializers.ModelSerializer):
@@ -15,7 +15,6 @@ class RoomSerializer(serializers.ModelSerializer):
 
 
 class BookingSerializer(serializers.ModelSerializer):
-    # Geschachtelte Serializer einbinden
     person = PersonSerializer(read_only=True)
     room = RoomSerializer(read_only=True)
 
@@ -26,7 +25,6 @@ class BookingSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         representation = super().to_representation(instance)
 
-        # representation['person'] ist jetzt ein Dictionary mit den Feldern der Person
         return {
             "title": f"{representation['person']['last_name']}, {representation['person']['first_name']}",
             "start": representation['booking_from'],

@@ -23,6 +23,7 @@ class Booking(models.Model):
     booking_to = models.DateTimeField()
     checked_in = models.BooleanField(default=False)
     room = models.ForeignKey(Room, on_delete=models.DO_NOTHING, null=True)
+    note = models.TextField(null=True)
 
     def __str__(self):
         return f"{self.person} - {self.room}"
