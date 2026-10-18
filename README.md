@@ -88,6 +88,18 @@ class MyNewAppConfig(AppConfig):
 4. Define the apps url in [urls.py](openLobby/urls.py)`urls.py`
 5. OPTIONAL: If you gave the app a different `required_group`, you need to create this group in the admin panel and assign it to the users you want to have access to it.
 
+6. Make sure, the `views.py` of your new app contains the function `test_func`
+```
+    def test_func(self):
+        app_config = apps.get_app_config(self.request.resolver_match.app_name)
+
+        required_group = getattr(app_config, 'required_group', None)
+
+        if not required_group:
+            return True
+        return self.request.user.groups.filter(name=required_group).exists()
+```
+
 ![urlConfig.png](readmeMedia/urlConfig.png)
 
 ## How to use
